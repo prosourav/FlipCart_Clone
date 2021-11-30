@@ -2,6 +2,7 @@ import { Badge, Box, Button, Typography } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const useStyle = makeStyles({
   login: {
@@ -24,6 +25,8 @@ const useStyle = makeStyles({
   },
   container: {
     display: "flex",
+    textDecoration: "none",
+    color: "unset",
   },
 });
 
@@ -35,12 +38,12 @@ const Headerbutton = () => {
         Login
       </Button>
       <Typography style={{ marginTop: "2px" }}>More</Typography>
-      <Box className={classes.container}>
+      <Link to="/cart" className={classes.container}>
         <Badge badgeContent={2} color="secondary">
           <ShoppingCart />
         </Badge>
         <Box style={{ marginLeft: 10 }}>cart</Box>
-      </Box>
+      </Link>
     </Box>
   );
 };
