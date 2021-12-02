@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { authenticateLogin, authenticateSignUp } from "../../service/api";
 
 const useStyle = makeStyles({
   component: {
@@ -66,11 +67,11 @@ const useStyle = makeStyles({
     cursor: "pointer",
   },
   error: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#ff6161",
     lineHeight: 0,
-    marginTop: 10,
-    fontWeight: 600,
+    marginTop: 12,
+    fontWeight: 700,
   },
 });
 
@@ -87,9 +88,26 @@ const initialValue = {
   },
 };
 
-const Login = ({ open, setOpen }) => {
+const signUpInitialValues = {
+  firstname: "",
+  lastname: "",
+  username: "",
+  email: "",
+  password: "",
+  phone: "",
+};
+
+const loginInitialValues = {
+  username: "",
+  password: "",
+};
+
+const Login = ({ open, setOpen, setAccount }) => {
   const classes = useStyle();
   const [account, toggleAccount] = useState(initialValue.login);
+  const [signUp, setSignUp] = useState(signUpInitialValues);
+  const [login, setLLogin] = useState(loginInitialValues);
+  const [error, setError] = useState(false);
   const handleClose = () => {
     setOpen(false);
     toggleAccount(initialValue.login);
@@ -98,6 +116,32 @@ const Login = ({ open, setOpen }) => {
   const toggleSignup = () => {
     toggleAccount(initialValue.signup);
   };
+
+  const handleSignUp = async () => {
+    let response = await authenticateSignUp(signUp);
+    if (!response) return;
+    handleClose();
+    setAccount(signUp.username);
+  };
+
+  const handleInputChange = (e) => {
+    setSignUp({ ...signUp, [e.target.name]: e.target.value });
+  };
+
+  const handleValueChange = (e) => {
+    setLLogin({ ...login, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async () => {
+    let response = await authenticateLogin(login);
+    if (!response) {
+      setError(true);
+      return;
+    }
+    handleClose();
+    setAccount(login.username);
+  };
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogContent className={classes.component}>
@@ -110,13 +154,28 @@ const Login = ({ open, setOpen }) => {
           </Box>
           {account.view === "login" ? (
             <Box className={classes.login}>
-              <TextField name="username" label="Enter Email/Mobile number" />
-              <TextField name="password" label="Enter Password" />
+              <TextField
+                onChange={handleValueChange}
+                name="username"
+                label="Enter Email/Mobile number"
+              />
+              <TextField
+                onChange={handleValueChange}
+                name="password"
+                label="Enter Password"
+              />
+              {error && (
+                <Typography className={classes.error}>
+                  Please enter valid Email ID/Password
+                </Typography>
+              )}
               <Typography className={classes.text}>
                 By continuing, you agree to Flipkart's Terms of Use and Privacy
                 Policy.
               </Typography>
-              <Button className={classes.loginbtn}>Login</Button>
+              <Button className={classes.loginbtn} onClick={handleLogin}>
+                Login
+              </Button>
               <Typography className={classes.text}>OR</Typography>
               <Button className={classes.requestbtn}>Request OTP</Button>
               <Typography
@@ -128,13 +187,39 @@ const Login = ({ open, setOpen }) => {
             </Box>
           ) : (
             <Box className={classes.login}>
-              <TextField name="firstname" label="Enter Firstname" />
-              <TextField name="lastname" label="Enter Lastname" />
-              <TextField name="username" label="Enter Username" />
-              <TextField name="email" label="Enter Email" />
-              <TextField name="password" label="Enter Password" />
-              <TextField name="phone" label="Enter Phone" />
-              <Button className={classes.loginbtn}>Continue</Button>
+              <TextField
+                onChange={handleInputChange}
+                name="firstname"
+                label="Enter Firstname"
+              />
+              <TextField
+                onChange={handleInputChange}
+                name="lastname"
+                label="Enter Lastname"
+              />
+              <TextField
+                onChange={handleInputChange}
+                name="username"
+                label="Enter Username"
+              />
+              <TextField
+                onChange={handleInputChange}
+                name="email"
+                label="Enter Email"
+              />
+              <TextField
+                onChange={handleInputChange}
+                name="password"
+                label="Enter Password"
+              />
+              <TextField
+                onChange={handleInputChange}
+                name="phone"
+                label="Enter Phone"
+              />
+              <Button className={classes.loginbtn} onClick={handleSignUp}>
+                Continue
+              </Button>
             </Box>
           )}
         </Box>
