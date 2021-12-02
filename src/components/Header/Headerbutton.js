@@ -1,8 +1,9 @@
 import { Badge, Box, Button, Typography } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Login from "../Login/Login";
 
 const useStyle = makeStyles({
   login: {
@@ -32,9 +33,18 @@ const useStyle = makeStyles({
 
 const Headerbutton = () => {
   const classes = useStyle();
+  const [open, setOpen] = useState(false);
+
+  const openDialog = () => {
+    setOpen(true);
+  };
   return (
     <Box className={classes.wrapper}>
-      <Button variant="contained" className={classes.login}>
+      <Button
+        variant="contained"
+        className={classes.login}
+        onClick={openDialog}
+      >
         Login
       </Button>
       <Typography style={{ marginTop: "2px" }}>More</Typography>
@@ -44,6 +54,7 @@ const Headerbutton = () => {
         </Badge>
         <Box style={{ marginLeft: 10 }}>cart</Box>
       </Link>
+      <Login open={open} setOpen={setOpen} />
     </Box>
   );
 };
