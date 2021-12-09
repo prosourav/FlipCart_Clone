@@ -38,13 +38,16 @@ const Headerbutton = () => {
   const [open, setOpen] = useState(false);
   const [account, setAccount] = useContext(loginContext);
 
+  let User = account.split("@");
+  User = User[0];
+
   const openDialog = () => {
     setOpen(true);
   };
   return (
     <Box className={classes.wrapper}>
       {account ? (
-        <Profile account={account} setAccount={setAccount} />
+        <Profile account={User} setAccount={setAccount} />
       ) : (
         <Button
           variant="contained"

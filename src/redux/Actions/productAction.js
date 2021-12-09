@@ -12,4 +12,11 @@ export const setProducts = () => async (dispatch) => {
   }
 };
 
-// return { type: ActionTypes.SET_PRODUCTS, payload: product };
+export const setSelected = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`${url}/product/${id}`);
+    dispatch({ type: ActionTypes.SELECTED_PRODUCT, payload: data });
+  } catch (error) {
+    return { type: ActionTypes.SELECTED_PRODUCT_FAIL, payload: error.response };
+  }
+};

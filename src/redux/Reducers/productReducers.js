@@ -15,3 +15,21 @@ export const getProductReducer = (
       return state;
   }
 };
+
+export const getSelectedProduct = (
+  state = { product: {} },
+  { type, payload }
+) => {
+  switch (type) {
+    case ActionTypes.SELECTED_PRODUCT:
+      return {
+        product: payload,
+      };
+    case ActionTypes.SELECTED_PRODUCT_FAIL:
+      return {
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};

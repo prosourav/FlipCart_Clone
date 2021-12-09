@@ -9,6 +9,7 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Countdown from "react-countdown";
+import { useHistory } from "react-router";
 
 const responsive = {
   superLargeDesktop: {
@@ -70,6 +71,7 @@ const useStyle = makeStyles({
 
 const Slide = ({ timer, title, products }) => {
   const classes = useStyle();
+  const history = useHistory();
   const timerURL =
     "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg";
   const renderer = ({ hours, minutes, seconds }) => {
@@ -114,7 +116,11 @@ const Slide = ({ timer, title, products }) => {
         containerClass="carousel-container"
       >
         {products.map((item) => (
-          <Box textAlign="center" className={classes.wrapper}>
+          <Box
+            textAlign="center"
+            className={classes.wrapper}
+            onClick={() => history.push(`/product/${item.id}`)}
+          >
             <img src={item.url} alt="loading.." className={classes.image} />
             <Typography
               className={classes.text}
