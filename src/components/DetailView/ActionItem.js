@@ -3,6 +3,8 @@ import { Button, Box, makeStyles } from "@material-ui/core";
 import { ShoppingCart as Cart, FlashOn as Flash } from "@material-ui/icons";
 import clsx from "clsx";
 import { useHistory } from "react-router-dom";
+import { addToCart } from "../../redux/Actions/cartActions";
+import { useDispatch } from "react-redux";
 // import { LoginContext } from "../../context/ContextProvider";
 // import { payUsingPaytm } from "../../service/api";
 // import { post } from "../../utils/paytm";
@@ -44,6 +46,13 @@ const ActionItem = ({ product }) => {
   const history = useHistory();
   //   const { account } = useContext(LoginContext);
   const { id, price, detailUrl, title } = product;
+  const dispatch = useDispatch();
+
+  console.log({ product });
+
+  const addItemToCart = (id) => {
+    dispatch(addToCart(id));
+  };
 
   return (
     <Box className={classes.leftContainer}>
@@ -54,7 +63,7 @@ const ActionItem = ({ product }) => {
       />
       <br />
       <Button
-        onClick={() => "addItemToCart()"}
+        onClick={() => addItemToCart(product.id)}
         className={clsx(classes.button, classes.addToCart)}
         style={{ marginRight: 10 }}
         variant="contained"
