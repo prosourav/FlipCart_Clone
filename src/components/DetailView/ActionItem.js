@@ -52,6 +52,7 @@ const ActionItem = ({ product }) => {
 
   const addItemToCart = (id) => {
     dispatch(addToCart(id));
+    history.push('/cart');
   };
 
   return (

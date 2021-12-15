@@ -11,3 +11,11 @@ export const addToCart = (id) => async (dispatch) => {
     return { type: ActionTypes.ADD_TO_CART_FAIL, payload: error.response };
   }
 };
+
+export const removeFromCart = (id)=> async(dispatch)=>{
+  try{
+    dispatch({ type: ActionTypes.REMOVE_FROM_CART, payload: id });
+  }catch(error){
+    return { type: ActionTypes.REMOVE_FROM_CART_FAIL, payload: error.response };
+  }
+};
